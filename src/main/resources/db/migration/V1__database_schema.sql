@@ -23,7 +23,7 @@ CREATE TABLE dentist (
     cpf VARCHAR(11) NOT NULL UNIQUE,
     rg VARCHAR(20) DEFAULT NULL,
     genre VARCHAR(20) NOT NULL,
-    birthDate datetime NOT NULL,
+    birth_date datetime NOT NULL,
     updated_at datetime DEFAULT NULL,
     created_at datetime DEFAULT NULL,
     PRIMARY KEY (`id`)
@@ -32,13 +32,13 @@ CREATE TABLE dentist (
 CREATE TABLE dentist_addresses (
     dentist_id bigint(20) NOT NULL,
     addresses_id bigint(20) NOT NULL,
-    CONSTRAINT fk_dentist FOREIGN KEY (dentist_id) REFERENCES dentist(id),
+    CONSTRAINT fk_dentist_address FOREIGN KEY (dentist_id) REFERENCES dentist(id),
     CONSTRAINT fk_addresses_id FOREIGN KEY (addresses_id) REFERENCES address(id)
 );
 
 CREATE TABLE dentist_contacts (
     dentist_id bigint(20) NOT NULL,
     contacts_id bigint(20) NOT NULL,
-    CONSTRAINT fk_dentist FOREIGN KEY (dentist_id) REFERENCES dentist(id),
+    CONSTRAINT fk_dentist_contact FOREIGN KEY (dentist_id) REFERENCES dentist(id),
     CONSTRAINT fk_contacts FOREIGN KEY (contacts_id) REFERENCES contact(id)
 );
