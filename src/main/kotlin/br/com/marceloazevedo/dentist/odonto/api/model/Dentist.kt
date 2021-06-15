@@ -12,7 +12,12 @@ import javax.persistence.*
 data class Dentist(
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
         val id: Long? = null,
-        val cro: String,
+        @Embedded
+        @AttributeOverrides(
+                AttributeOverride(name = "uf", column = Column(name = "cro_uf")),
+                AttributeOverride(name = "number", column = Column(name = "cro_number"))
+        )
+        val cro: CRO,
         val name: String,
         val cpf: String,
         val rg: String,
