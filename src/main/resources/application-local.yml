@@ -11,4 +11,11 @@ spring:
     password: root_1234
     driverClassName: com.mysql.cj.jdbc.Driver
   jackson:
-    default-property-inclusion=non_null
+    default-property-inclusion: non_null
+
+amazon:
+  dynamodb:
+    endpoint: http://localhost:8000/
+  aws:
+    accesskey: AKIAQ4RAEW2N5WD2HB6T
+    secretkey: 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
