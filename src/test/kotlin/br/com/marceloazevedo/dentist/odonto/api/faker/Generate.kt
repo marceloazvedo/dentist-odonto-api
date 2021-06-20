@@ -6,6 +6,8 @@ import br.com.marceloazevedo.dentist.odonto.api.model.Address
 import br.com.marceloazevedo.dentist.odonto.api.model.CRO
 import br.com.marceloazevedo.dentist.odonto.api.model.Contact
 import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 fun phoneNumberContact() =
@@ -26,10 +28,7 @@ fun validCPF() = "77882942090"
 
 fun invalidCPF() = "12312312132"
 
-fun birthDate(): Date {
-    val formatter = SimpleDateFormat("dd-MM-yyyy")
-    return formatter.parse("12-04-1995")
-}
+fun birthDate(): LocalDate = LocalDate.parse("12-04-1995", DateTimeFormatter.ofPattern("dd-MM-yyyy"))
 
 fun cro() = CRO(UF.PB, "5412")
 

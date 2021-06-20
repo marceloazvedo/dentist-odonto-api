@@ -40,7 +40,7 @@ internal class DentistServiceTest {
                 rg = "123312132123"
         )
 
-        val dentistSaved = dentistToCreate.copy(id = 1L)
+        val dentistSaved = dentistToCreate.copy(id = "test")
 
         every { dentistRepository.save(any()) } returns dentistSaved
 

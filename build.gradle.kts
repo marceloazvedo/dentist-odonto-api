@@ -14,13 +14,13 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
 	mavenCentral()
+	maven(url = "https://s3-us-west-2.amazonaws.com/dynamodb-local/release")
 }
 
 extra["springCloudVersion"] = "2020.0.3"
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
-	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -30,10 +30,14 @@ dependencies {
 	implementation("org.springframework.cloud:spring-cloud-starter-sleuth")
 	implementation("org.springframework.boot:spring-boot-starter-logging:2.5.1")
 	implementation("org.springframework.boot:spring-boot-starter-log4j2:2.5.1")
-	runtimeOnly("com.h2database:h2")
-	runtimeOnly("mysql:mysql-connector-java")
+
+	// Amazon DynamoDB
+	implementation("org.springframework.data:spring-data-releasetrain:Neumann-SR9")
+	implementation("com.github.derjust:spring-data-dynamodb:5.1.0")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.mockk:mockk:1.11.0")
+
 }
 
 dependencyManagement {

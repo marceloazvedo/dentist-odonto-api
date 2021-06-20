@@ -4,7 +4,6 @@ import br.com.marceloazevedo.dentist.odonto.api.exchange.response.ErrorResponse
 import br.com.marceloazevedo.dentist.odonto.api.exchange.response.FieldError
 import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
 import org.apache.logging.log4j.LogManager
-import org.hibernate.exception.ConstraintViolationException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.MessageSource
 import org.springframework.http.HttpHeaders
@@ -70,25 +69,4 @@ class ApiExceptionHandler: ResponseEntityExceptionHandler() {
                 HttpStatus.BAD_REQUEST)
     }
 
-    @ExceptionHandler(value = [ConstraintViolationException::class])
-    fun handleConstraintViolationException(request: WebRequest, exception: ConstraintViolationException): ResponseEntity<ErrorResponse> {
-        return ResponseEntity(ErrorResponse(
-                status = HttpStatus.BAD_REQUEST.value(),
-                errors = listOf(exception.toFieldError(messageSource)), path = (request as ServletWebRequest).request.requestURI
-                ?: "not found",
-                error = messageSource.getMessage("object.fields.constraintValidationError", null, Locale.ENGLISH)),
-                HttpStatus.BAD_REQUEST)
-    }
-
 }
-
-fun ConstraintViolationException.toFieldError(messageSource: MessageSource): FieldError =
-        FieldError(
-                field = this.constraintName,
-                message = getMessageBySqlStateAndCode(this.sqlState, this.sqlException.errorCode, messageSource, arrayOf(this.constraintName)),
-                value = null
-        )
-
-fun getMessageBySqlStateAndCode(sqlState: String, code: Int, messageSource: MessageSource, arguments: Array<String>): String =
-        if(sqlState == "23000" && code == 1062) messageSource.getMessage("field.duplicated", arguments, Locale.ENGLISH)
-        else "not found"

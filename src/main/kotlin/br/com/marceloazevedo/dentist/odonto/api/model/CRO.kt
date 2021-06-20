@@ -1,13 +1,15 @@
 package br.com.marceloazevedo.dentist.odonto.api.model
 
 import br.com.marceloazevedo.dentist.odonto.api.enum.UF
-import javax.persistence.Embeddable
-import javax.persistence.EnumType
-import javax.persistence.Enumerated
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBAttribute
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapperFieldModel
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTyped
 
-@Embeddable
+@DynamoDBDocument
 data class CRO(
-        @Enumerated(EnumType.STRING)
+        @DynamoDBTyped(DynamoDBMapperFieldModel.DynamoDBAttributeType.S)
         val uf: UF,
+        @DynamoDBAttribute
         val number: String
 )
