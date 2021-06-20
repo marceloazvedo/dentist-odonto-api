@@ -30,7 +30,7 @@ class ApiExceptionHandler: ResponseEntityExceptionHandler() {
     private lateinit var messageSource: MessageSource
 
     override fun handleMethodArgumentNotValid(ex: MethodArgumentNotValidException, headers: HttpHeaders, status: HttpStatus, request: WebRequest): ResponseEntity<Any> {
-        logger.info("m=handleMethodArgumentNotValid")
+        logger.error("m=handleMethodArgumentNotValid", ex)
         val fieldsError = ex.fieldErrors.map { reference ->
             FieldError(reference.field, reference.defaultMessage ?: "message not found", reference.rejectedValue)
         }
@@ -59,7 +59,7 @@ class ApiExceptionHandler: ResponseEntityExceptionHandler() {
 
     @ExceptionHandler(value = [MissingKotlinParameterException::class])
     fun handleMissingKotlinParameter(request: WebRequest, exception: MissingKotlinParameterException): ResponseEntity<ErrorResponse> {
-        logger.info("m=handleMissingKotlinParameter")
+        logger.error("m=handleMissingKotlinParameter", exception)
         val fieldsError = exception.path.map { reference ->
             FieldError(reference.fieldName, messageSource.getMessage("field.notNull", null, Locale.ENGLISH), null)
         }
@@ -72,14 +72,23 @@ class ApiExceptionHandler: ResponseEntityExceptionHandler() {
 
     @ExceptionHandler(value = [ConstraintViolationException::class])
     fun handleConstraintViolationException(request: WebRequest, exception: ConstraintViolationException): ResponseEntity<ErrorResponse> {
-        logger.info("m=handleConstraintViolationException")
         return ResponseEntity(ErrorResponse(
                 status = HttpStatus.BAD_REQUEST.value(),
-                errors = listOf(),
-                path = "",
+                errors = listOf(exception.toFieldError(messageSource)), path = (request as ServletWebRequest).request.requestURI
+                ?: "not found",
                 error = messageSource.getMessage("object.fields.constraintValidationError", null, Locale.ENGLISH)),
                 HttpStatus.BAD_REQUEST)
     }
 
-
 }
+
+fun ConstraintViolationException.toFieldError(messageSource: MessageSource): FieldError =
+        FieldError(
+                field = this.constraintName,
+                message = getMessageBySqlStateAndCode(this.sqlState, this.sqlException.errorCode, messageSource, arrayOf(this.constraintName)),
+                value = null
+        )
+
+fun getMessageBySqlStateAndCode(sqlState: String, code: Int, messageSource: MessageSource, arguments: Array<String>): String =
+        if(sqlState == "23000" && code == 1062) messageSource.getMessage("field.duplicated", arguments, Locale.ENGLISH)
+        else "not found"

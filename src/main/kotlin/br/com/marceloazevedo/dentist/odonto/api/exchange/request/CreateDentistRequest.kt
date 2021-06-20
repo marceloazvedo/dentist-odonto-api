@@ -3,53 +3,55 @@ package br.com.marceloazevedo.dentist.odonto.api.exchange.request
 import br.com.marceloazevedo.dentist.odonto.api.enum.ContactType
 import br.com.marceloazevedo.dentist.odonto.api.enum.Genre
 import br.com.marceloazevedo.dentist.odonto.api.enum.UF
+import javax.validation.Valid
+import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
 
 data class CreateDentistRequest(
-        @field:NotNull
+        @field:Valid @field:NotNull
         val cro: CRORequest?,
-        @field:NotEmpty @field:NotNull
+        @field:NotBlank
         val name: String?,
-        @field:NotEmpty @field:NotNull
+        @field:NotBlank
         val cpf: String?,
-        @field:NotEmpty @field:NotNull
+        @field:NotBlank
         val rg: String?,
         @field:NotNull
         val genre: Genre?,
-        @field:NotEmpty @field:NotNull
-        val birthDate: String,
-        @field:NotEmpty
-        val contacts: List<ContactRequest>,
-        val address: List<AddressRequest>
+        @field:NotBlank
+        val birthDate: String?,
+        @field:Valid @field:NotEmpty
+        val contacts: List<ContactRequest?>?,
+        val address: List<AddressRequest?>?
 )
 
 data class CRORequest(
-        @field:NotEmpty @field:NotNull
+        @field:NotBlank
         val number: String?,
-        @field:NotEmpty @field:NotNull
+        @field:NotNull
         val uf: UF?,
 )
 
 data class ContactRequest(
-        @field:NotEmpty @field:NotNull
+        @field:NotBlank
         val name: String?,
-        @field:NotEmpty @field:NotNull
+        @field:NotBlank
         val value: String?,
-        @field:NotEmpty @field:NotNull
+        @field:NotNull
         val type: ContactType?
 )
 
 data class AddressRequest(
-        @field:NotEmpty @field:NotNull
+        @field:NotBlank
         val cep: String?,
-        @field:NotEmpty @field:NotNull
+        @field:NotBlank
         val street: String?,
-        @field:NotEmpty @field:NotNull
+        @field:NotBlank
         val number: String?,
-        @field:NotEmpty @field:NotNull
-        val city: String,
-        @field:NotEmpty @field:NotNull
-        val uf: UF,
-        val complement: String
+        @field:NotBlank
+        val city: String?,
+        @field:NotNull
+        val uf: UF?,
+        val complement: String?
 )
