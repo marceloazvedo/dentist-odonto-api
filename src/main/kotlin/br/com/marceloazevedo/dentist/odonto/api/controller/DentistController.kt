@@ -15,11 +15,11 @@ import javax.validation.Valid
 @RequestMapping("/dentist")
 class DentistController {
 
-    private val logger: Logger = LogManager.getLogger(DentistController::class.java)
+    private val logger: Logger = LogManager.getLogger(this::class.java)
 
     @PostMapping(consumes = [MediaType.APPLICATION_JSON_VALUE], produces = [MediaType.APPLICATION_JSON_VALUE])
     fun create(@Valid @RequestBody createDentist: CreateDentistRequest): ResponseEntity<String> {
-        logger.info("m=create")
+        logger.info("method=create")
         return ResponseEntity.ok().build()
     }
 
