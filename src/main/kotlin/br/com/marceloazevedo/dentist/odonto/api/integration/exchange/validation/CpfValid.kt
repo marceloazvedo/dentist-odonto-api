@@ -23,4 +23,3 @@ class CpfValidation : ConstraintValidator<CpfValid, String> {
         return if (value.isNullOrBlank()) true else isCpfValid(value)
     }
 }
-

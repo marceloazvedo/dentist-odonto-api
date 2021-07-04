@@ -4,6 +4,7 @@ import br.com.marceloazevedo.dentist.odonto.api.enum.ContactType
 import br.com.marceloazevedo.dentist.odonto.api.enum.Genre
 import br.com.marceloazevedo.dentist.odonto.api.enum.UF
 import br.com.marceloazevedo.dentist.odonto.api.integration.exchange.validation.CpfValid
+import br.com.marceloazevedo.dentist.odonto.api.integration.exchange.validation.DateTimeValid
 import javax.validation.Valid
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotEmpty
@@ -20,7 +21,7 @@ data class CreateDentistRequest(
         val rg: String?,
         @field:NotNull
         val genre: Genre?,
-        @field:NotBlank
+        @field:NotBlank @field:DateTimeValid(dateFormat = "dd/MM/yyyy")
         val birthDate: String?,
         @field:Valid @field:NotEmpty
         val contacts: List<ContactRequest?>?,

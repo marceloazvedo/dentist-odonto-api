@@ -174,6 +174,56 @@ class DentistControllerTest {
         verify(service, times(0)).create(any())
     }
 
+    @Test
+    fun `should not save a dentist with a birth_date blank`() {
+        val dentist = generateFullDentist()
+
+        `when`(service.create(any())).thenReturn(dentist)
+
+        with(mvc) {
+            perform(post("/dentist")
+                    .content(asString(badRequestBirthDateBlank))
+                    .contentType(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isBadRequest)
+                    .andExpect(jsonPath("$.timestamp").isNotEmpty)
+                    .andExpect(jsonPath("$.status", `is`(400)))
+                    .andExpect(jsonPath("$.error", `is`("The fields in object cannot be null")))
+                    .andExpect(jsonPath("$.path", `is`("/dentist")))
+                    .andExpect(jsonPath("$.errors").isArray)
+                    .andExpect(jsonPath("$.errors[0].field", `is`("birth_date")))
+                    .andExpect(jsonPath("$.errors[0].message", `is`("must not be blank")))
+                    .andExpect(jsonPath("$.errors[0].value", `is`("")))
+                    .andExpect(jsonPath("$.errors[1]").doesNotExist())
+        }
+        verify(service, times(0)).create(any())
+    }
+
+    @Test
+    fun `should not save a dentist with a birth_date invalid`() {
+        val dentist = generateFullDentist()
+
+        `when`(service.create(any())).thenReturn(dentist)
+
+        with(mvc) {
+            perform(post("/dentist")
+                    .content(asString(badRequestBirthDateInvalid))
+                    .contentType(MediaType.APPLICATION_JSON))
+                    .andDo(print())
+                    .andExpect(status().isBadRequest)
+                    .andExpect(jsonPath("$.timestamp").isNotEmpty)
+                    .andExpect(jsonPath("$.status", `is`(400)))
+                    .andExpect(jsonPath("$.error", `is`("The fields in object cannot be null")))
+                    .andExpect(jsonPath("$.path", `is`("/dentist")))
+                    .andExpect(jsonPath("$.errors").isArray)
+                    .andExpect(jsonPath("$.errors[0].field", `is`("birth_date")))
+                    .andExpect(jsonPath("$.errors[0].message", `is`("The value informed to this date is invalid")))
+                    .andExpect(jsonPath("$.errors[0].value", `is`("12/44/200X")))
+                    .andExpect(jsonPath("$.errors[1]").doesNotExist())
+        }
+        verify(service, times(0)).create(any())
+    }
+
     @Value("classpath:json/request/success_request.json")
     private lateinit var successJsonRequest: Resource
 
@@ -188,6 +238,12 @@ class DentistControllerTest {
 
     @Value("classpath:json/request/bad_request_genre_invalid.json")
     private lateinit var badRequestInvalidGenre: Resource
+
+    @Value("classpath:json/request/bad_request_birth_date_blank.json")
+    private lateinit var badRequestBirthDateBlank: Resource
+
+    @Value("classpath:json/request/bad_request_birth_date_invalid.json")
+    private lateinit var badRequestBirthDateInvalid: Resource
 
 }
 

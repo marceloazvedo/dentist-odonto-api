@@ -3,6 +3,7 @@ package br.com.marceloazevedo.dentist.odonto.api.handler
 import br.com.marceloazevedo.dentist.odonto.api.exception.GenreNotValidException
 import br.com.marceloazevedo.dentist.odonto.api.integration.exchange.response.ErrorResponse
 import br.com.marceloazevedo.dentist.odonto.api.integration.exchange.response.FieldError
+import br.com.marceloazevedo.dentist.odonto.api.util.toSnakeCase
 import com.fasterxml.jackson.databind.JsonMappingException
 import com.fasterxml.jackson.databind.exc.ValueInstantiationException
 import com.fasterxml.jackson.module.kotlin.MissingKotlinParameterException
@@ -35,7 +36,7 @@ class ApiExceptionHandler : ResponseEntityExceptionHandler() {
     override fun handleMethodArgumentNotValid(ex: MethodArgumentNotValidException, headers: HttpHeaders, status: HttpStatus, request: WebRequest): ResponseEntity<Any> {
         logger.error("method=handleMethodArgumentNotValid", ex)
         val fieldsError = ex.fieldErrors.map { reference ->
-            FieldError(reference.field, reference.defaultMessage ?: "message not found", reference.rejectedValue)
+            FieldError(reference.field.toSnakeCase(), reference.defaultMessage ?: "message not found", reference.rejectedValue)
         }
         return ResponseEntity(ErrorResponse(
                 status = HttpStatus.BAD_REQUEST.value(),
@@ -61,7 +62,7 @@ class ApiExceptionHandler : ResponseEntityExceptionHandler() {
             val instantiationExceptionCause = (ex.cause as ValueInstantiationException).cause
             val fieldName: String? = (ex.cause as JsonMappingException).path.firstOrNull()?.fieldName
             if (instantiationExceptionCause is GenreNotValidException) {
-                val genreNotValidException = GenreNotValidException(instantiationExceptionCause.message, instantiationExceptionCause.value, fieldName)
+                val genreNotValidException = GenreNotValidException(instantiationExceptionCause.message, instantiationExceptionCause.value, fieldName?.toSnakeCase())
                 return handleGenreNotValidException(request, genreNotValidException) as ResponseEntity<Any>
             }
         }

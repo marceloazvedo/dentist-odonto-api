@@ -4,16 +4,16 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
-fun String.toLocalDate(): LocalDate {
-    val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+fun String.toLocalDate(format: String? = null): LocalDate {
+    val formatter = DateTimeFormatter.ofPattern(format ?: "dd/MM/yyyy")
     return LocalDate.parse(this, formatter)
 }
 
-fun LocalDateTime.parserToString(): String =
-    this.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss"))
+fun LocalDateTime.parserToString(format: String? = null): String =
+        this.format(DateTimeFormatter.ofPattern(format ?: "dd/MM/yyyy HH:mm:ss"))
 
 fun LocalDate.parserToString(): String =
-    this.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
+        this.format(DateTimeFormatter.ofPattern("dd/MM/yyyy"))
 
 fun isCpfValid(document: String): Boolean {
     if (document.isEmpty()) return false
@@ -38,3 +38,10 @@ fun isCpfValid(document: String): Boolean {
 
     return numbers[9] == dv1 && numbers[10] == dv2
 }
+
+fun String.toSnakeCase(): String {
+    return "(?<=[a-zA-Z])[A-Z]".toRegex().replace(this) {
+        "_${it.value}"
+    }.lowercase()
+}
+
