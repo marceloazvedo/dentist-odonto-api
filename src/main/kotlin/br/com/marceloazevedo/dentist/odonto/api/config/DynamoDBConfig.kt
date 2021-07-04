@@ -14,7 +14,7 @@ import org.springframework.context.annotation.Configuration
 
 @Configuration
 @EnableDynamoDBRepositories(
-        "br/com/marceloazevedo/dentist/odonto/api/repository"
+        "br/com/marceloazevedo/dentist/odonto/api/integration/repository"
 )
 class DynamoDBConfig {
 

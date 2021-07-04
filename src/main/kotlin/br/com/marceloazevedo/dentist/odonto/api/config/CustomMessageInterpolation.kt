@@ -21,7 +21,6 @@ class CustomMessageInterpolation {
 
     @Bean
     fun getValidator(messageSource: MessageSource): LocalValidatorFactoryBean? {
-        println("getValidator")
         val bean = LocalValidatorFactoryBean()
         bean.setValidationMessageSource(messageSource)
         return bean

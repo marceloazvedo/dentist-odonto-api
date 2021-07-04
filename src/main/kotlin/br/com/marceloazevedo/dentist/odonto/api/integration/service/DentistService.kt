@@ -1,7 +1,8 @@
-package br.com.marceloazevedo.dentist.odonto.api.service
+package br.com.marceloazevedo.dentist.odonto.api.integration.service
 
+import br.com.marceloazevedo.dentist.odonto.api.integration.exchange.request.CreateDentistRequest
 import br.com.marceloazevedo.dentist.odonto.api.model.Dentist
-import br.com.marceloazevedo.dentist.odonto.api.repository.DentistRepository
+import br.com.marceloazevedo.dentist.odonto.api.integration.repository.DentistRepository
 import org.apache.logging.log4j.LogManager
 import org.apache.logging.log4j.Logger
 import org.springframework.beans.factory.annotation.Autowired
@@ -15,8 +16,8 @@ class DentistService {
     @Autowired
     private lateinit var dentistRepository: DentistRepository
 
-    fun create(dentist: Dentist): Dentist {
+    fun create(createDentist: CreateDentistRequest): Dentist {
         logger.info("method=create")
-        return dentistRepository.save(dentist)
+        return dentistRepository.save(Dentist(createDentist))
     }
 }

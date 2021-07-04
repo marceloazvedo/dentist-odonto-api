@@ -1,4 +1,4 @@
-package br.com.marceloazevedo.dentist.odonto.api.exchange.response
+package br.com.marceloazevedo.dentist.odonto.api.integration.exchange.response
 
 import java.time.LocalDateTime
 

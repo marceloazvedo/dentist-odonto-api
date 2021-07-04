@@ -1,4 +1,4 @@
-package br.com.marceloazevedo.dentist.odonto.api.repository
+package br.com.marceloazevedo.dentist.odonto.api.integration.repository
 
 import br.com.marceloazevedo.dentist.odonto.api.model.Dentist
 import org.socialsignin.spring.data.dynamodb.repository.EnableScan

@@ -1,8 +1,9 @@
-package br.com.marceloazevedo.dentist.odonto.api.exchange.request
+package br.com.marceloazevedo.dentist.odonto.api.integration.exchange.request
 
 import br.com.marceloazevedo.dentist.odonto.api.enum.ContactType
 import br.com.marceloazevedo.dentist.odonto.api.enum.Genre
 import br.com.marceloazevedo.dentist.odonto.api.enum.UF
+import br.com.marceloazevedo.dentist.odonto.api.integration.exchange.validation.CpfValid
 import javax.validation.Valid
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotEmpty
@@ -13,7 +14,7 @@ data class CreateDentistRequest(
         val cro: CRORequest?,
         @field:NotBlank
         val name: String?,
-        @field:NotBlank
+        @field:NotBlank @field:CpfValid
         val cpf: String?,
         @field:NotBlank
         val rg: String?,
@@ -23,7 +24,8 @@ data class CreateDentistRequest(
         val birthDate: String?,
         @field:Valid @field:NotEmpty
         val contacts: List<ContactRequest?>?,
-        val address: List<AddressRequest?>?
+        @field:Valid
+        val addresses: List<AddressRequest?>?
 )
 
 data class CRORequest(

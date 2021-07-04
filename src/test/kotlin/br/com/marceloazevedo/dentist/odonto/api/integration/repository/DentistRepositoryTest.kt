@@ -1,9 +1,10 @@
-package br.com.marceloazevedo.dentist.odonto.api.repository
+package br.com.marceloazevedo.dentist.odonto.api.integration.repository
 
 import br.com.marceloazevedo.dentist.odonto.api.enum.Genre
-import br.com.marceloazevedo.dentist.odonto.api.faker.*
-import br.com.marceloazevedo.dentist.odonto.api.model.Dentist
-import org.junit.jupiter.api.Assertions.*
+import br.com.marceloazevedo.dentist.odonto.api.integration.faker.generateFullDentist
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertNotNull
+import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -27,16 +28,7 @@ internal class DentistRepositoryTest {
 
     @Test
     fun `should save a dentist with success`() {
-        val dentistToSave = Dentist(
-                cro = cro(),
-                name = "Test de Create a Person",
-                address = listOf(address()),
-                contacts = listOf(phoneNumberContact()),
-                birthDate = birthDate(),
-                cpf = validCPF(),
-                genre = Genre.MALE,
-                rg = "123312132123"
-        )
+        val dentistToSave = generateFullDentist()
 
         val dentistSaved = dentistRepository.save(dentistToSave)
 
@@ -50,7 +42,7 @@ internal class DentistRepositoryTest {
         assertEquals(dentistSaved.cpf, dentistToSave.cpf)
         assertEquals(dentistSaved.rg, dentistToSave.rg)
         assertEquals(dentistSaved.genre, Genre.MALE)
-        assertEquals(dentistSaved.address.size, 1)
+        assertEquals(dentistSaved.addresses!!.size, 1)
         assertEquals(dentistSaved.contacts.size, 1)
         assertNotNull(dentistSaved.createdAt)
         assertNotNull(dentistSaved.id)
