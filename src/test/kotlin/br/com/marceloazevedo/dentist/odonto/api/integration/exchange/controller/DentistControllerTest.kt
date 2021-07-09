@@ -3,7 +3,6 @@ package br.com.marceloazevedo.dentist.odonto.api.integration.exchange.controller
 import br.com.marceloazevedo.dentist.odonto.api.integration.faker.generateFullDentist
 import br.com.marceloazevedo.dentist.odonto.api.integration.service.DentistService
 import br.com.marceloazevedo.dentist.odonto.api.util.parserToString
-import com.fasterxml.jackson.databind.ObjectMapper
 import org.flywaydb.core.internal.util.FileCopyUtils
 import org.hamcrest.Matchers.`is`
 import org.junit.jupiter.api.Test
