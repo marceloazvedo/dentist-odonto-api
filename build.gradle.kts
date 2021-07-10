@@ -32,9 +32,12 @@ dependencies {
     implementation("org.springframework.data:spring-data-releasetrain:Neumann-SR9")
     implementation("com.github.derjust:spring-data-dynamodb:5.1.0")
 
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
+        exclude(module = "junit")
+        exclude(module = "mockito-core")
+    }
     testImplementation("io.mockk:mockk:1.11.0")
-
+    testImplementation("com.ninja-squad:springmockk:3.0.1")
 
 }
 

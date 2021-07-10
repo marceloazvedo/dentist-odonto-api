@@ -1,5 +1,8 @@
 package br.com.marceloazevedo.dentist.odonto.api.enum
 
+import br.com.marceloazevedo.dentist.odonto.api.exception.GenreNotValidException
+import com.fasterxml.jackson.annotation.JsonCreator
+
 enum class UF(name: String) {
 
     RO("Rondônia"),
@@ -29,5 +32,16 @@ enum class UF(name: String) {
     MT("Mato Grosso"),
     GO("Goiás"),
     DF("Distrito Federal");
+
+    companion object {
+        @JsonCreator
+        @JvmStatic
+        fun create(value: String?): UF {
+            if (value.isNullOrBlank()) throw GenreNotValidException("The UF \"$value\" is not valid", value ?: "")
+            return values().firstOrNull { it.name == value }
+                ?: throw GenreNotValidException("The UF \"$value\" is not valid", value)
+        }
+    }
+
 
 }

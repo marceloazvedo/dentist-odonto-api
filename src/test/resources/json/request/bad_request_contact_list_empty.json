@@ -1,0 +1,21 @@
+{
+  "cpf": "55240287074",
+  "rg": "1231",
+  "genre": "MALE",
+  "birth_date": "12/04/1995",
+  "name": "marcelo",
+  "contacts": [],
+  "addresses": [
+    {
+      "city": "Santana do Teste",
+      "cep": "59350000",
+      "uf": "RN",
+      "street": "Rua do Teste",
+      "number": "0"
+    }
+  ],
+  "cro": {
+    "uf": "PB",
+    "number": "133132"
+  }
+}
