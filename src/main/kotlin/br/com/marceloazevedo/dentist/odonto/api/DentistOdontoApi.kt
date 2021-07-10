@@ -4,8 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class DentistOdontoApiApplication
+class DentistOdontoApi
 
 fun main(args: Array<String>) {
-	runApplication<DentistOdontoApiApplication>(*args)
+	runApplication<DentistOdontoApi>(*args)
 }

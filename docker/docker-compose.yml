@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  dynamo:
+    image: amazon/dynamodb-local
+    environment:
+      - ./Djava.library.path=./DynamoDBLocal_lib
+    ports:
+      - "8000:8000"
+    volumes:
+      - ~/dynamodblocal/data:/home/dynamodblocal/data
+    working_dir: /home/dynamodblocal
+    command: ["-jar", "DynamoDBLocal.jar", "-sharedDb", "-dbPath", "./data"]
