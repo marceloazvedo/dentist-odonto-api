@@ -1,0 +1,27 @@
+{
+  "cpf": "55240287074",
+  "rg": "1231",
+  "genre": "MALE",
+  "birth_date": "12/04/1995",
+  "name": "marcelo",
+  "contacts": [
+    {
+      "value": "83988457858",
+      "type": "WHATSAPP",
+      "name": "TESTE"
+    }
+  ],
+  "addresses": [
+    {
+      "city": "Santana do Teste",
+      "zip_code": "59350000",
+      "uf": "RN",
+      "street": "Rua do Teste",
+      "number": "0"
+    }
+  ],
+  "cro": {
+    "uf": "TT",
+    "number": "12313"
+  }
+}

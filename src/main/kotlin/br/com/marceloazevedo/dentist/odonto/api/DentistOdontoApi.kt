@@ -1,11 +1,11 @@
-package br.com.marceloazevedo.dentist.odonto.api.DentistOdontoApi
+package br.com.marceloazevedo.dentist.odonto.api
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class DentistOdontApiApplication
+class DentistOdontoApi
 
 fun main(args: Array<String>) {
-	runApplication<DentistOdontApiApplication>(*args)
+	runApplication<DentistOdontoApi>(*args)
 }

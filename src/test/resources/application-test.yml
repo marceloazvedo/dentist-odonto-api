@@ -1,0 +1,13 @@
+amazon:
+  dynamodb:
+    endpoint: http://localhost:8000/
+  aws:
+    accesskey: key
+    secretkey: key
+    region: us-east-1
+
+spring:
+  data:
+    dynamodb:
+      entity2ddl:
+        auto: create

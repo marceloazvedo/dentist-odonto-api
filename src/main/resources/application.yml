@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: odonto-dentist-api
+  jackson:
+    property-naming-strategy: SNAKE_CASE

@@ -1,0 +1,67 @@
+package br.com.marceloazevedo.dentist.odonto.api.integration.exchange.request
+
+import br.com.marceloazevedo.dentist.odonto.api.enum.ContactType
+import br.com.marceloazevedo.dentist.odonto.api.enum.Genre
+import br.com.marceloazevedo.dentist.odonto.api.enum.UF
+import br.com.marceloazevedo.dentist.odonto.api.integration.exchange.validation.CpfValid
+import br.com.marceloazevedo.dentist.odonto.api.integration.exchange.validation.DateTimeValid
+import br.com.marceloazevedo.dentist.odonto.api.integration.exchange.validation.EmailContactValid
+import br.com.marceloazevedo.dentist.odonto.api.integration.exchange.validation.PhoneNumberContactValid
+import com.fasterxml.jackson.annotation.JsonPropertyOrder
+import javax.validation.Valid
+import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotEmpty
+import javax.validation.constraints.NotNull
+import javax.validation.constraints.Pattern
+
+data class CreateDentistRequest(
+        @field:Valid @field:NotNull
+        val cro: CRORequest?,
+        @field:NotBlank
+        val name: String?,
+        @field:NotBlank @field:CpfValid
+        val cpf: String?,
+        @field:NotBlank
+        val rg: String?,
+        @field:NotNull
+        val genre: Genre?,
+        @field:NotBlank @field:DateTimeValid(dateFormat = "dd/MM/yyyy")
+        val birthDate: String?,
+        @field:Valid @field:NotEmpty
+        val contacts: List<ContactRequest?>?,
+        @field:Valid
+        val addresses: List<AddressRequest?>?
+)
+
+@JsonPropertyOrder("number", "uf")
+data class CRORequest(
+        @field:NotBlank
+        val number: String?,
+        @field:NotNull
+        val uf: UF?,
+)
+
+@EmailContactValid
+@PhoneNumberContactValid
+data class ContactRequest(
+        @field:NotBlank
+        val name: String?,
+        @field:NotBlank
+        val value: String?,
+        @field:NotNull
+        val type: ContactType?
+)
+
+data class AddressRequest(
+        @field:NotBlank @field:Pattern(regexp = "\\d{8}", message = "Zip Code must be 8 digits long")
+        val zipCode: String?,
+        @field:NotBlank
+        val street: String?,
+        @field:NotBlank
+        val number: String?,
+        @field:NotBlank
+        val city: String?,
+        @field:NotNull
+        val uf: UF?,
+        val complement: String?
+)

@@ -1,1 +1,1 @@
-rootProject.name = "Dentist-Odont-API"
+rootProject.name = "dentist-odont-api"
