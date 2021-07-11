@@ -44,9 +44,10 @@ Certifique-se de que o projeto foi construído na sua máquina antes de iniciar 
     - Ainda na **aba Configuration**, em **Use classpath of module** selecione o valor **dentist-odonto-api.main**;
     - Ainda na **aba Configuration**, em **JRE** selecione a versão do Java 11 ou outra maior de sua escolha;
     - Clique em **Apply** e depois em **OK** para salvar as configurações.
-  - Agora você pode inicializar o projeto indo na barra de menu superior e em **run** e depois selecionando **Run...** (ou pode usar a parte visual que fica na barra superior e clicar no "botão de play").
+  - Agora você pode inicializar o projeto indo na barra de menu superior e em **run** e fdepois selecionando **Run...** (ou pode usar a parte visual que fica na barra superior e clicar no "botão de play").
 
-Pronto, seu projeto tá inicializado e já pode receber requisições :blush:.
+Pronto, seu projeto está inicializado e já pode receber requisições :blush:.
+Para verificar se o projeto tá up use o endpoint do actuator: http://localhost:8080/actuator/health.
 
 # Testes
 Infelizmente o Kotlin tem alguns problemas ao executar o Dynamo DB localmente e inicializa-lo para executar executar os testes.

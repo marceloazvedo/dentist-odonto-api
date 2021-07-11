@@ -6,8 +6,8 @@
   "name": "marcelo",
   "contacts": [
     {
-      "value": "83988457858",
-      "type": "WHATSAPP",
+      "value": "83988457858A",
+      "type": "PHONE_NUMBER",
       "name": "TESTE"
     }
   ],
@@ -20,5 +20,8 @@
       "number": "0"
     }
   ],
-  "cro": {}
+  "cro": {
+    "uf": "PB",
+    "number": "133132"
+  }
 }

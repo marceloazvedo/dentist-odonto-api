@@ -5,9 +5,9 @@ import br.com.marceloazevedo.dentist.odonto.api.integration.service.DentistServi
 import br.com.marceloazevedo.dentist.odonto.api.util.parserToString
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
-import io.mockk.impl.annotations.MockK
 import io.mockk.verify
 import org.hamcrest.Matchers.`is`
+import org.hamcrest.Matchers.containsInAnyOrder
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
@@ -65,7 +65,7 @@ class DentistControllerTest {
                     .andExpect(jsonPath("$.contacts[0].value", `is`(dentist.contacts.first().value)))
                     .andExpect(jsonPath("$.contacts[0].type", `is`(dentist.contacts.first().type.name)))
                     .andExpect(jsonPath("$.addresses[0].id", `is`(dentist.addresses?.first()?.id)))
-                    .andExpect(jsonPath("$.addresses[0].cep", `is`(dentist.addresses?.first()?.cep)))
+                    .andExpect(jsonPath("$.addresses[0].zip_code", `is`(dentist.addresses?.first()?.zipCode)))
                     .andExpect(jsonPath("$.addresses[0].street", `is`(dentist.addresses?.first()?.street)))
                     .andExpect(jsonPath("$.addresses[0].number", `is`(dentist.addresses?.first()?.number)))
                     .andExpect(jsonPath("$.addresses[0].city", `is`(dentist.addresses?.first()?.city)))
@@ -297,12 +297,11 @@ class DentistControllerTest {
                 .andExpect(jsonPath("$.error", `is`("The fields in object cannot be null")))
                 .andExpect(jsonPath("$.path", `is`("/dentist")))
                 .andExpect(jsonPath("$.errors").isArray)
-                .andExpect(jsonPath("$.errors[0].field", `is`("cro.number")))
-                .andExpect(jsonPath("$.errors[0].message", `is`("must not be blank")))
+                .andExpect(jsonPath("$.errors[*].field", containsInAnyOrder("cro.number","cro.uf")))
+                .andExpect(jsonPath("$.errors[*].message", containsInAnyOrder("must not be blank","must not be null")))
                 .andExpect(jsonPath("$.errors[0].value").isEmpty)
-                .andExpect(jsonPath("$.errors[1].field", `is`("cro.uf")))
-                .andExpect(jsonPath("$.errors[1].message", `is`("must not be null")))
                 .andExpect(jsonPath("$.errors[1].value").isEmpty)
+                .andExpect(jsonPath("$.errors[2]").doesNotExist())
         }
         verify(exactly = 0) { service.create(any()) }
     }
@@ -458,14 +457,14 @@ class DentistControllerTest {
     }
 
     @Test
-    fun `should not create a dentist with city in address is empty`() {
+    fun `should not create a dentist with contact email invalid`() {
         val dentist = generateFullDentist()
 
         every { service.create(any()) } returns dentist
 
         with(mvc) {
             perform(post("/dentist")
-                .content(asString(badRequestAddressCityEmpty))
+                .content(asString(badRequestInvalidContactEmail))
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isBadRequest)
@@ -474,9 +473,61 @@ class DentistControllerTest {
                 .andExpect(jsonPath("$.error", `is`("The fields in object cannot be null")))
                 .andExpect(jsonPath("$.path", `is`("/dentist")))
                 .andExpect(jsonPath("$.errors").isArray)
-                .andExpect(jsonPath("$.errors[0].field", `is`("contact[0].value")))
-                .andExpect(jsonPath("$.errors[0].message", `is`("invalid value")))
-                .andExpect(jsonPath("$.errors[0].value", `is`("")))
+                .andExpect(jsonPath("$.errors[0].field", `is`("contacts[0]")))
+                .andExpect(jsonPath("$.errors[0].message", `is`("The e-mail informed is invalid")))
+                .andExpect(jsonPath("$.errors[0].value.value", `is`("83988457858")))
+                .andExpect(jsonPath("$.errors[0].value.type", `is`("EMAIL")))
+                .andExpect(jsonPath("$.errors[0].value.name", `is`("TESTE")))
+                .andExpect(jsonPath("$.errors[1]").doesNotExist())
+        }
+        verify(exactly = 0) { service.create(any()) }
+    }
+
+    @Test
+    fun `should not create a dentist with contact number invalid`() {
+        val dentist = generateFullDentist()
+
+        every { service.create(any()) } returns dentist
+
+        with(mvc) {
+            perform(post("/dentist")
+                .content(asString(badRequestInvalidContactPhoneNumber))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isBadRequest)
+                .andExpect(jsonPath("$.timestamp").isNotEmpty)
+                .andExpect(jsonPath("$.status", `is`(400)))
+                .andExpect(jsonPath("$.error", `is`("The fields in object cannot be null")))
+                .andExpect(jsonPath("$.path", `is`("/dentist")))
+                .andExpect(jsonPath("$.errors").isArray)
+                .andExpect(jsonPath("$.errors[0].field", `is`("contacts[0]")))
+                .andExpect(jsonPath("$.errors[0].message", `is`("The phone number informed is invalid")))
+                .andExpect(jsonPath("$.errors[0].value.value", `is`("83988457858A")))
+                .andExpect(jsonPath("$.errors[0].value.type", `is`("PHONE_NUMBER")))
+                .andExpect(jsonPath("$.errors[1]").doesNotExist())
+        }
+        verify(exactly = 0) { service.create(any()) }
+    }
+    @Test
+    fun `should not create a dentist with invalid zip code in address`() {
+        val dentist = generateFullDentist()
+
+        every { service.create(any()) } returns dentist
+
+        with(mvc) {
+            perform(post("/dentist")
+                .content(asString(badRequestWithAddressZipCodeInvalid))
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isBadRequest)
+                .andExpect(jsonPath("$.timestamp").isNotEmpty)
+                .andExpect(jsonPath("$.status", `is`(400)))
+                .andExpect(jsonPath("$.error", `is`("The fields in object cannot be null")))
+                .andExpect(jsonPath("$.path", `is`("/dentist")))
+                .andExpect(jsonPath("$.errors").isArray)
+                .andExpect(jsonPath("$.errors[0].field", `is`("addresses[0].zip_code")))
+                .andExpect(jsonPath("$.errors[0].message", `is`("Zip Code must be 8 digits long")))
+                .andExpect(jsonPath("$.errors[0].value", `is`("59350000A")))
                 .andExpect(jsonPath("$.errors[1]").doesNotExist())
         }
         verify(exactly = 0) { service.create(any()) }
@@ -509,6 +560,9 @@ class DentistControllerTest {
     @Value("classpath:json/request/success_request_without_address.json")
     private lateinit var successJsonRequestWithoutAddress: Resource
 
+    @Value("classpath:json/request/bad_request_with_address_zip_code_invalid.json")
+    private lateinit var badRequestWithAddressZipCodeInvalid: Resource
+
     @Value("classpath:json/request/bad_request_cro_is_empty.json")
     private lateinit var badRequestCroIsEmpty: Resource
 
@@ -529,6 +583,12 @@ class DentistControllerTest {
 
     @Value("classpath:json/request/bad_request_address_city_is_empty.json")
     private lateinit var badRequestAddressCityEmpty: Resource
+
+    @Value("classpath:json/request/bad_request_invalid_contact_email.json")
+    private lateinit var badRequestInvalidContactEmail: Resource
+
+    @Value("classpath:json/request/bad_request_invalid_contact_phone_number.json")
+    private lateinit var badRequestInvalidContactPhoneNumber: Resource
 
 
 }

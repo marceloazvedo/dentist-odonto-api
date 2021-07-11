@@ -38,7 +38,7 @@ fun cro() = CRO(UF.PB, "5412")
 
 fun address() =
         Address(
-                cep = "59350000",
+                zipCode = "59350000",
                 street = "Test Street",
                 number = "0",
                 city = "Santana do Seridó",
@@ -58,7 +58,7 @@ fun generateFullDentist() = Dentist(
 
 fun generateFullDentistRequest() = CreateDentistRequest(
         addresses = listOf(AddressRequest(
-                cep = "59350000",
+                zipCode = "59350000",
                 city = "Santana do Test",
                 uf = UF.RN,
                 number = "0",

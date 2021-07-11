@@ -7,7 +7,7 @@
   "contacts": [
     {
       "value": "83988457858",
-      "type": "WHATSAPP",
+      "type": "EMAIL",
       "name": "TESTE"
     }
   ],
@@ -20,5 +20,8 @@
       "number": "0"
     }
   ],
-  "cro": {}
+  "cro": {
+    "uf": "PB",
+    "number": "133132"
+  }
 }

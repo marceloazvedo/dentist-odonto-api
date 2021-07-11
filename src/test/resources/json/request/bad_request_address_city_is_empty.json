@@ -14,7 +14,7 @@
   "addresses": [
     {
       "city": "",
-      "cep": "59350000",
+      "zip_code": "59350000",
       "uf": "RN",
       "street": "Rua Teste",
       "number": "0"

@@ -14,7 +14,7 @@
   "addresses": [
     {
       "city": "Santana do Teste",
-      "cep": "59350000",
+      "zip_code": "59350000",
       "uf": "RN",
       "street": "Rua Teste",
       "number": ""

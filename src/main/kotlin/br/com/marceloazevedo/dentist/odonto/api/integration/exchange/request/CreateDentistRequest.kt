@@ -5,10 +5,14 @@ import br.com.marceloazevedo.dentist.odonto.api.enum.Genre
 import br.com.marceloazevedo.dentist.odonto.api.enum.UF
 import br.com.marceloazevedo.dentist.odonto.api.integration.exchange.validation.CpfValid
 import br.com.marceloazevedo.dentist.odonto.api.integration.exchange.validation.DateTimeValid
+import br.com.marceloazevedo.dentist.odonto.api.integration.exchange.validation.EmailContactValid
+import br.com.marceloazevedo.dentist.odonto.api.integration.exchange.validation.PhoneNumberContactValid
+import com.fasterxml.jackson.annotation.JsonPropertyOrder
 import javax.validation.Valid
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.NotNull
+import javax.validation.constraints.Pattern
 
 data class CreateDentistRequest(
         @field:Valid @field:NotNull
@@ -29,6 +33,7 @@ data class CreateDentistRequest(
         val addresses: List<AddressRequest?>?
 )
 
+@JsonPropertyOrder("number", "uf")
 data class CRORequest(
         @field:NotBlank
         val number: String?,
@@ -36,6 +41,8 @@ data class CRORequest(
         val uf: UF?,
 )
 
+@EmailContactValid
+@PhoneNumberContactValid
 data class ContactRequest(
         @field:NotBlank
         val name: String?,
@@ -46,8 +53,8 @@ data class ContactRequest(
 )
 
 data class AddressRequest(
-        @field:NotBlank
-        val cep: String?,
+        @field:NotBlank @field:Pattern(regexp = "\\d{8}", message = "Zip Code must be 8 digits long")
+        val zipCode: String?,
         @field:NotBlank
         val street: String?,
         @field:NotBlank

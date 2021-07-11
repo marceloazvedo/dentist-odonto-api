@@ -14,11 +14,14 @@
   "addresses": [
     {
       "city": "Santana do Teste",
-      "zip_code": "59350000",
+      "zip_code": "59350000A",
       "uf": "RN",
       "street": "Rua do Teste",
       "number": "0"
     }
   ],
-  "cro": {}
+  "cro": {
+    "uf": "PB",
+    "number": "133132"
+  }
 }
