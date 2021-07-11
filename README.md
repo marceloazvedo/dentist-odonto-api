@@ -2,9 +2,9 @@
 Microserviço que faz parte de um ecosistema de microserviços, em que esse é responsável pelo cadastro de dentistas.
 
 # Requisitos:
-- Java 11+;
-- Dynamo DB;
-- Intellij (IDE sugerida).
+- Java 14+ (você pode usar o [Jabba](https://github.com/shyiko/jabba) para gerenciar versões do Java);
+- Dynamo DB (leia a documentação a respeito [aqui](https://aws.amazon.com/pt/dynamodb/));
+- Intellij Community Edition (IDE sugerida, pode ser baixada [aqui](https://www.jetbrains.com/pt-br/idea/download/#section=linux).
 
 # Configurando o projeto
 Antes de configurar o projeto na sua IDE, é importante configurar o Dynamo DB para que o projeto se conecte a ela, para isso siga as instruções abaixo.
